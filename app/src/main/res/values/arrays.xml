@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <array name="auto_fixed_title">
+        <item>18sp</item>
+    </array>
+
+    <array name="auto_fixed_author">
+        <item>14sp</item>
+    </array>
+    
+</resources>
