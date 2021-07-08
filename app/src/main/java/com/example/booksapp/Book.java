@@ -5,10 +5,10 @@ import android.text.SpannableStringBuilder;
 
 public class Book {
 
+    // book's properties
     private SpannableStringBuilder title;
     private SpannableStringBuilder author;
     private float rating;
-//    private Color rgb;
     private String url;
 
     public Book(SpannableStringBuilder title, SpannableStringBuilder author, float rating, String url) {

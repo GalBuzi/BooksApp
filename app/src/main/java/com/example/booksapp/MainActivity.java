@@ -37,21 +37,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // extract data from Json file
         setUpDataFromJson();
 
+        // load the listview with books
         setUpList();
 
+        // initial SearchWidget
         initSearchWidget();
 
+        // Add the required message after clicking a book
         onClickListener();
 
 
     }
 
+    // toast the message required
     private void onClickListener() {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Book selected = (Book) listView.getItemAtPosition(position);
@@ -69,16 +72,20 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
 
+            // listen to any change in search box and change accordingly
             @Override
             public boolean onQueryTextChange(String newText) {
 
                 ArrayList<Book> filtered = new ArrayList<>();
                 for (Book book : bookList) {
+
+                    // if the search text is part of the Title
                     if(book.getTitle().toString().toLowerCase().contains(newText.toLowerCase())){
 
                         String originalTitle = book.getTitle().toString().toLowerCase();
                         int indexOfFirstLetter = originalTitle.indexOf(newText);
                         int indexOfLastLetter = indexOfFirstLetter+newText.length();
+                        // if text present color it with yellow color
                         if(indexOfFirstLetter != -1) {
                             SpannableStringBuilder ssb = new SpannableStringBuilder(book.getTitle().toString());
                             BackgroundColorSpan bcsYellow = new BackgroundColorSpan(Color.YELLOW);
@@ -88,17 +95,20 @@ public class MainActivity extends AppCompatActivity {
                                 filtered.add(book);
                         }
                     }else{
+                        // if the text wasnt found enter the original text
                         SpannableStringBuilder ssb = new SpannableStringBuilder(book.getTitle().toString());
                         BackgroundColorSpan bcsYellow = new BackgroundColorSpan(Color.WHITE);
                         ssb.setSpan(bcsYellow, 0, ssb.length()-1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                         book.setTitle(ssb);
                     }
 
+                    // if the search text is part of the Author
                     if (book.getAuthor().toString().toLowerCase().contains(newText.toLowerCase())){
 
                         String originalTitle = book.getAuthor().toString().toLowerCase();
                         int indexOfFirstLetter = originalTitle.indexOf(newText);
                         int indexOfLastLetter = indexOfFirstLetter+newText.length();
+                        // if text present color it with yellow color
                         if(indexOfFirstLetter != -1) {
                             SpannableStringBuilder ssb = new SpannableStringBuilder(book.getAuthor().toString());
                             BackgroundColorSpan bcsYellow = new BackgroundColorSpan(Color.YELLOW);
@@ -108,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
                                 filtered.add(book);
                         }
                     }else{
+                        // if the text wasnt found enter the original text
                         SpannableStringBuilder ssb = new SpannableStringBuilder(book.getAuthor().toString());
                         BackgroundColorSpan bcsYellow = new BackgroundColorSpan(Color.WHITE);
                         ssb.setSpan(bcsYellow, 0, ssb.length()-1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -116,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
+                // use an adapter to insert books to update the listview
                 BookAdapter adapter = new BookAdapter(getApplicationContext(),0,filtered);
                 listView.setAdapter(adapter);
 
@@ -126,12 +138,14 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void setUpList() {
+        // use an adapter to insert books to create the listview
         listView = findViewById(R.id.listView);
         BookAdapter ba = new BookAdapter(getApplicationContext(),0,bookList);
         listView.setAdapter(ba);
     }
 
     private void setUpDataFromJson() {
+        // parse json data to Book Objects
         String jsonStr = loadJSONFromAsset();
         try {
             JSONObject jsonObject = new JSONObject(jsonStr);
@@ -156,6 +170,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String loadJSONFromAsset() {
+
+        // load json file
         String json = null;
         try {
             InputStream is = this.getAssets().open("books.json");

@@ -34,11 +34,13 @@ public class BookAdapter extends ArrayAdapter implements Filterable {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.book_line,parent,false);
         }
 
+        // update book properties
         ImageView img = (ImageView) convertView.findViewById(R.id.image);
         TextView title = (TextView) convertView.findViewById(R.id.titleTitle);
         TextView author = (TextView) convertView.findViewById(R.id.author);
         RatingBar rating = (RatingBar) convertView.findViewById(R.id.ratingBar);
 
+        // using glide to download url image and present it
         Glide.with(getContext())
                 .load(book.getUrl())
                 .into(img);
